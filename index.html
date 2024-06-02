@@ -36,19 +36,29 @@
 </head>
 <body>
     <div class="container">
-        <h2>Сканер штрих-коду</h2>
-        <input type="text" id="productName" placeholder="Назва товару"><br>
+        <h2 id="productTitle">Сканер штрих-коду</h2>
+        <input type="text" id="productName" readonly><br>
         <input type="number" id="quantity" placeholder="Кількість"><br>
         <button onclick="addToGoogleSheet()">OK</button>
     </div>
 
     <script>
+        // Function to get URL parameters
+        function getParameterByName(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Set the product name from URL parameter
+        const productName = getParameterByName('product');
+        document.getElementById('productName').value = productName;
+        document.getElementById('productTitle').textContent = productName;
+
         function addToGoogleSheet() {
-            var productName = document.getElementById('productName').value;
             var quantity = document.getElementById('quantity').value;
 
             // Ваш URL-адреса для Google Apps Script
-            var scriptUrl = "https://script.google.com/macros/s/AKfycbwjs3YZuHQGOw_DlZAw0FntQoslNnSuJc99IWi4f6tZAIpA4NCSfBMK6PXOptfXmqEhXg/exec";
+            var scriptUrl = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
 
             // Виконайте AJAX-запит до вашого Google Apps Script для додавання даних
             var xhr = new XMLHttpRequest();
