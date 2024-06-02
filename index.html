@@ -32,6 +32,11 @@
         button:hover {
             background-color: #45a049;
         }
+        .message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: green;
+        }
     </style>
 </head>
 <body>
@@ -40,6 +45,7 @@
         <input type="text" id="productName" readonly><br>
         <input type="number" id="quantity" placeholder="Кількість"><br>
         <button onclick="addToGoogleSheet()">OK</button>
+        <div id="message" class="message" style="display: none;">Дію виконано успішно!</div>
     </div>
 
     <script>
@@ -58,11 +64,16 @@
             var quantity = document.getElementById('quantity').value;
 
             // Ваш URL-адреса для Google Apps Script
-            var scriptUrl = "https://script.google.com/macros/s/AKfycbz3OizOLhF5Rtf1RkTpQO_tVfO2owosofjoG9Fv46KHc8v8eQ5-BDxg8BJ2Y4tPQ8Sxag/exec";
+            var scriptUrl = "https://script.google.com/macros/s/AKfycbwjs3YZuHQGOw_DlZAw0FntQoslNnSuJc99IWi4f6tZAIpA4NCSfBMK6PXOptfXmqEhXg/exec";
 
             // Виконайте AJAX-запит до вашого Google Apps Script для додавання даних
             var xhr = new XMLHttpRequest();
             xhr.open("GET", scriptUrl + "?productName=" + productName + "&quantity=" + quantity, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    document.getElementById('message').style.display = 'block';
+                }
+            };
             xhr.send();
         }
     </script>
