@@ -44,7 +44,7 @@
         <h2 id="productTitle">Сканер штрих-коду</h2>
         <input type="text" id="productName" readonly><br>
         <input type="number" id="quantity" placeholder="Кількість"><br>
-        <button onclick="addToGoogleSheet()">OK</button>
+        <button id="okButton" onclick="addToGoogleSheet()">OK</button>
         <div id="message" class="message" style="display: none;">Дію виконано успішно!</div>
     </div>
 
@@ -62,6 +62,11 @@
 
         function addToGoogleSheet() {
             var quantity = document.getElementById('quantity').value;
+            var okButton = document.getElementById('okButton');
+            var message = document.getElementById('message');
+
+            // Деактивація кнопки, щоб запобігти повторним натисканням
+            okButton.disabled = true;
 
             // Ваш URL-адреса для Google Apps Script
             var scriptUrl = "https://script.google.com/macros/s/AKfycbwjs3YZuHQGOw_DlZAw0FntQoslNnSuJc99IWi4f6tZAIpA4NCSfBMK6PXOptfXmqEhXg/exec";
@@ -71,7 +76,7 @@
             xhr.open("GET", scriptUrl + "?productName=" + productName + "&quantity=" + quantity, true);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
-                    document.getElementById('message').style.display = 'block';
+                    message.style.display = 'block';
                 }
             };
             xhr.send();
